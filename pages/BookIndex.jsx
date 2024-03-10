@@ -1,5 +1,10 @@
+import { bookService } from "../services/book-service.js"
+
+
+
 export function BookIndex() {
-    return <section className="car-index">
+    const [books, setBooks] = useState(null)
+    return <section className="book-index">
         <h1>Book</h1>
     </section>
 }

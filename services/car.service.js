@@ -46,8 +46,17 @@ function save(car) {
     }
 }
 
-function getEmptyCar(vendor = '', maxSpeed = 0) {
-    return { id: '', vendor, maxSpeed }
+function getBook(title= '', maxSpeed = 0) {
+    return { id: "OXeMG8wNskc",
+    title: `metus hendrerit`,
+    description: `placerat nisi sodales suscipit tellus`,
+    thumbnail: `http://coding-academy.org/books-photos/
+    20.jpg`,
+    listPrice: {
+    amount: 109,
+    currencyCode: "EUR",
+    isOnSale: false }
+}
 }
 
 function getFilterBy() {
