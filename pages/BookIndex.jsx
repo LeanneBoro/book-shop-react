@@ -1,7 +1,7 @@
 const { useState, useEffect } = React
 import { bookService } from "../services/book-service.js"
 import { BookList } from "../cmps/Booklist.jsx"
-
+import { Bookdetails } from "../cmps/Bookdetails.jsx"
 
 
 
@@ -12,7 +12,11 @@ export function BookIndex() {
     useEffect(() => {
         loadBooks()
     }, [])
-    
+
+    function showDetail(book) {
+
+    }
+
     function onRemoveBook(bookId) {
         bookService.remove(bookId)
             .then(() => {
@@ -24,8 +28,9 @@ export function BookIndex() {
     }
 
     function onSelectBook(book) {
-        console.log(book)
+        setSelectedBook(book)
     }
+
 
     function loadBooks() {
         bookService.query()
@@ -36,6 +41,14 @@ export function BookIndex() {
 
     }
     if (!books) return <div>....loading</div>
-    return <BookList books={books} onRemoveBook={onRemoveBook} onSelectBook={onSelectBook} />
+    return <section className="book-index">
+        {!selectedBook && <BookList books={books} onRemoveBook={onRemoveBook} onSelectBook={onSelectBook} showDetail={showDetail} />}
 
+        {
+            selectedBook && <Bookdetails
+                book={selectedBook}
+                onGoBack={() => onSelectBook(null)}
+            />
+        }
+    </section>
 }
