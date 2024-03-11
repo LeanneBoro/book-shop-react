@@ -11,7 +11,10 @@ export const bookService = {
     getDefaultFilter
 }
 
-_createBooks()
+function _saveBooksToStorage() {
+  storageService.save(BOOK_KEY, gBooks)
+}
+
 
 
 function query(filterBy) {
@@ -84,7 +87,7 @@ function _createBook(title,price,currency) {
     }
 }
 
-var gBooks = [
+const gBooks = [
   {
     id: 'OXeMG8wNskc',
     title: 'metus hendrerit',
