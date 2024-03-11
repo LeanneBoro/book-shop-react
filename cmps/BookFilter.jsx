@@ -1,50 +1,62 @@
 const { useState, useEffect } = React
 
+export function BookFilter({ onSetFilter, filterBy }) {
+  const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
+  useEffect(() => {
+    onSetFilter(filterByToEdit)
+  }, [filterByToEdit])
 
-export function CarFilter({ onSetFilter, filterBy }) {
-	const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+  
+  function handleChange(ev) {
+    ev.preventDefault()
+    const field = ev.target.name
+	
+    const value = (ev.target.type === 'number') ? +ev.target.value : ev.target.value
+	console.log(value)
+    setFilterByToEdit((prevFilter) => ({ ...prevFilter, [field]: value }))
+  }
 
-	useEffect(() => {
-		onSetFilter(filterByToEdit)
-	}, [filterByToEdit])
+  function onFilter(ev) {
+    ev.preventDefault()
+    onSetFilter(filterByToEdit)
+  }
 
-	function onFilter(ev) {
-		ev.preventDefault()
-		onSetFilter(filterByToEdit)
-	}
+  const { title, price } = filterByToEdit
 
-	function handleChange({ target }) {
-		let { value, name: field, type } = target
-		if (type === 'number') value = +value
-		// if(type ==='checkbox') value = target.checked
-		setFilterByToEdit((prevFilterBy) => ({ ...prevFilterBy, [field]: value }))
-		// onSetFilter(filterByToEdit)
-	}
+  return (
+    <section className='filter-container'>
+      <div className='filter-inside-container'>
+        <h2 className='filter-header'>Filter books:</h2>
+        <form className='books-filter' onSubmit={onFilter}>
+          <div className='filter-section'>
+            <label htmlFor='byTitle'>Title:</label>
+            <input
+              type='text'
+              id='byTitle'
+              name='title'
+              value={title}
+              onChange={handleChange}
+              className='input'
+              placeholder='Search by title...'
+            />
+          </div>
 
-
-	console.log('filterByToEdit', filterByToEdit)
-	return <section className="car-filter">
-		<h2>Filter our cars</h2>
-
-		<form onSubmit={onFilter}>
-			<label htmlFor="vendor">Vendor</label>
-			<input type="text"
-				id="vendor"
-				name="txt"
-				value={filterByToEdit.txt}
-				onChange={handleChange}
-				placeholder="By vendor" />
-
-			<label htmlFor="minSpeed">Min Speed</label>
-			<input type="number"
-				id="minSpeed"
-				name="minSpeed"
-				value={filterByToEdit.minSpeed}
-				onChange={handleChange}
-				placeholder="By min speed" />
-
-			<button>Filter</button>
-		</form>
-	</section>
+          <div className='filter-section'>
+            <label htmlFor='byAuthor'>Price:</label>
+            <input
+              type='number'
+              id='price'
+              name='price'
+              value={price}
+              onChange={handleChange}
+              className='input'
+              placeholder='Search by price'
+            />
+          </div>
+          <button className='filter-btn'>Filter</button>
+        </form>
+      </div>
+    </section>
+  )
 }
