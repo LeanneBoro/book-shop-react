@@ -4,87 +4,91 @@ import { storageService } from './async-storage.service.js'
 const BOOK_KEY = 'bookDB'
 
 export const bookService = {
-    query,
-    remove,
-    getById,
-    save,
-    getDefaultFilter
+  query,
+  remove,
+  getById,
+  save,
+  getDefaultFilter,
+  addReview
 }
 
 function _saveBooksToStorage() {
   storageService.save(BOOK_KEY, gBooks)
 }
 
-
+function addReview(bookId, review) {
+  let book = getById(bookId)
+  book[review] = review
+}
 
 function query(filterBy) {
-          return storageService.query(BOOK_KEY).then((books) => {
-            if (!books || !books.length) {
-              books = gBooks
-              _saveBooksToStorage()
-            }
-            if (filterBy.title) {
-              const regExp = new RegExp(filterBy.title, 'i')
-              books = books.filter((b) => regExp.test(b.title))
-            }
-            if (filterBy.price) {
-              books = books.filter((b) => b.listPrice.amount <= filterBy.price)
-            }
-            return books
-          })
+  return storageService.query(BOOK_KEY).then((books) => {
+    if (!books || !books.length) {
+      books = gBooks
+      _saveBooksToStorage()
+    }
+    if (filterBy.title) {
+      const regExp = new RegExp(filterBy.title, 'i')
+      books = books.filter((b) => regExp.test(b.title))
+    }
+    if (filterBy.price) {
+      books = books.filter((b) => b.listPrice.amount <= filterBy.price)
+    }
+    return books
+  })
 }
 
 function getById(bookId) {
-    return storageService.get(KEY, bookId)
+  return storageService.get(BOOK_KEY, bookId)
+}
+
+function remove(bookId) {
+  return storageService.remove(BOOK_KEY, bookId)
+}
+
+function save(book) {
+  if (book.id) {
+    return storageService.put(BOOK_KEY, book)
+  } else {
+    return storageService.post(BOOK_KEY, book)
   }
-  
-  function remove(bookId) {
-    return storageService.remove(KEY, bookId)
-  }
-  
-  function save(book) {
-    if (book.id) {
-      return storageService.put(KEY, book)
-    } else {
-      return storageService.post(KEY, book)
-    }
-  }
-  
-  function getDefaultFilter() {
-    return { title: '', price: 0 }
-  }
+}
+
+function getDefaultFilter() {
+  return { title: '', price: 0 }
+}
 
 
 function remove(bookId) {
-    return storageService.remove(BOOK_KEY, bookId)
+  return storageService.remove(BOOK_KEY, bookId)
 }
 
 
 function _createBooks() {
-    let books = utilService.loadFromStorage(BOOK_KEY)
-    if (!books || !books.length) {
-        books = []
-        books.push(_createBook('The adventures of puki',88,'NIS'))
-        books.push(_createBook('Muki and friends',120,'USD'))
-        books.push(_createBook('Dingo the modern hero',45,'EUR'))
-        utilService.saveToStorage(BOOK_KEY, books)
-    }
-    
+  let books = utilService.loadFromStorage(BOOK_KEY)
+  if (!books || !books.length) {
+    books = []
+    books.push(_createBook('The adventures of puki', 88, 'NIS'))
+    books.push(_createBook('Muki and friends', 120, 'USD'))
+    books.push(_createBook('Dingo the modern hero', 45, 'EUR'))
+    utilService.saveToStorage(BOOK_KEY, books)
+  }
+
 }
 
-function _createBook(title,price,currency) {
-    return {
-        id: utilService.makeId(),
-        title: title,
-        description: `placerat nisi sodales suscipit tellus`,
-        thumbnail: `http://coding-academy.org/books-photos/
+function _createBook(title, price, currency) {
+  return {
+    id: utilService.makeId(),
+    title: title,
+    description: `placerat nisi sodales suscipit tellus`,
+    thumbnail: `http://coding-academy.org/books-photos/
     20.jpg`,
-        listPrice: {
-            amount: price,
-            currencyCode: currency,
-            isOnSale: false
-        }
+    listPrice: {
+      amount: price,
+      currencyCode: currency,
+      isOnSale: false
     }
+  }
 }
 
 const gBooks = [

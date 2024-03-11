@@ -1,4 +1,6 @@
 
+const { Link, Outlet } = ReactRouterDOM
+
 	export function BookDetails({ book, onGoBack, onGoEdit }) {
     
 
@@ -85,7 +87,10 @@
 					<div className="book-details-info-row">
 						<span className="book-details-info-title">Description:</span>
 					</div>
+					<div className="review">{book.review}</div>
 				</div>
+				<Link to={`/book/:bookId/review`}><button>Review</button></Link>
 			</section>
+			
 		)
 	}

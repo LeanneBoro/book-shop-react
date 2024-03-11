@@ -6,6 +6,7 @@ import { bookService } from "../services/book-service.js"
 import { BookList } from "../cmps/Booklist.jsx"
 import { BookDetails } from "../cmps/Bookdetails.jsx"
 import { BookFilter } from "../cmps/BookFilter.jsx"
+import { eventBusService } from "../services/event-bus.service.js"
 
 export function BookIndex() {
     const [books, setBooks] = useState(null)
@@ -22,14 +23,17 @@ export function BookIndex() {
         bookService.remove(bookId)
             .then(() => {
                 setBooks((prevBooks) => prevBooks.filter(book => book.id !== bookId))
+                eventBusService.emit('show-user-msg', {type: 'success', txt: 'car removed' })
             })
             .catch((err) => {
                 console.log('Had issues removing book', err)
+                eventBusService.emit('show-user-msg', {type: 'error', txt: 'you suck' })
             })
     }
 
     function onSelectBook(book) {
         setSelectedBook(book)
+        eventBusService.emit('show-user-msg', {type: 'success', txt: 'lol' })
     }
 
 
