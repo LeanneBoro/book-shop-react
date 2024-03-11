@@ -8,6 +8,7 @@ import {Home} from './pages/home.jsx'
 import { About } from './pages/Abourt.jsx'
 import {BookIndex} from './pages/BookIndex.jsx'
 import { BookDetails } from './cmps/Bookdetails.jsx'
+import {UserMsg} from './cmps/UserMsg.jsx'
 
 export function App() {
 
@@ -35,7 +36,7 @@ return <Router>
                 {page === 'car' && <CarIndex />} */}
             </main>
 
-            {/* <UserMsg /> */}
+            <UserMsg />
         </section>
     </Router>
 }
