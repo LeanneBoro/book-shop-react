@@ -1,13 +1,14 @@
 const { useState, useEffect } = React
 import { bookService } from "../services/book-service.js"
 import { BookList } from "../cmps/Booklist.jsx"
-import { Bookdetails } from "../cmps/Bookdetails.jsx"
+import { BookDetails } from "../cmps/Bookdetails.jsx"
 import { BookFilter } from "../cmps/BookFilter.jsx"
 
 export function BookIndex() {
     const [books, setBooks] = useState(null)
-    const [selectedBook, setSelectedBook] = useState(null)
+    const [isEdit, setIsEdit] = useState(false)
     const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
+    const [selectedBook, setSelectedBook] = useState(null)
 
     useEffect(() => {
         loadBooks()
@@ -40,15 +41,41 @@ export function BookIndex() {
       }
     
     if (!books) return <div>....loading</div>
-    return <section className="book-index">
-        {!selectedBook && <BookList books={books} onRemoveBook={onRemoveBook} onSelectBook={onSelectBook} />}
-
-        <BookFilter onSetFilter={onSetFilter} filterBy={filterBy} />
-        {
-            selectedBook && <Bookdetails
-                book={selectedBook}
-                onGoBack={() => onSelectBook(null)}
-            />
-        }
-    </section>
+    return (
+        <main>
+          {!selectedBook && (
+            <React.Fragment>
+              <BookFilter onSetFilter={onSetFilter} filterBy={filterBy} />
+              {books.length && (
+                <BookList
+                  books={books}
+                  onSelectBook={onSelectBook}
+                  onRemoveBook={onRemoveBook}
+                />
+              )}
+              {!books.length && <div> No Books found...</div>}
+            </React.Fragment>
+          )}
+    
+          {selectedBook && (
+            <section>
+              {!isEdit && (
+                <BookDetails
+                  book={selectedBook}
+                  onGoBack={() => setSelectedBook(null)}
+                  onGoEdit={() => setIsEdit(true)}
+                />
+              )}
+    
+              {isEdit && (
+                <BookEdit
+                  book={selectedBook}
+                  onUpdate={onUpdateBook}
+                  onCancelEdit={() => setIsEdit(false)}
+                />
+              )}
+            </section>
+          )}
+        </main>
+      )
 }
