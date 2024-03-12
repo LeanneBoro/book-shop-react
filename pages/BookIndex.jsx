@@ -7,6 +7,7 @@ import { BookList } from "../cmps/Booklist.jsx"
 import { BookDetails } from "../cmps/BookDetails.jsx"
 import { BookFilter } from "../cmps/BookFilter.jsx"
 import { eventBusService } from "../services/event-bus.service.js"
+import {BookAdd} from "../cmps/BookAdd.jsx"
 
 export function BookIndex() {
     const [books, setBooks] = useState(null)
@@ -52,6 +53,7 @@ export function BookIndex() {
         <main>
           {!selectedBook && (
             <React.Fragment>
+               <BookAdd/>
               <BookFilter onSetFilter={onSetFilter} filterBy={filterBy} />
               {books.length && (
                 <BookList
