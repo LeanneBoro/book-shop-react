@@ -8,11 +8,7 @@ export function BookAdd() {
    function handleChange({ target }) {
       let value = target.value
       console.log(value)
-      // setFindBookBy(value)
-   }
-
-   function findBooks(value) {
-
+      setFindBookBy(value)
    }
    return (
       <section className="Add">
@@ -23,7 +19,7 @@ export function BookAdd() {
             placeholder="Add book"
             name="add"
             onChange={handleChange}
-            value=""
+            value={findBookBy}
          />
       </section>
 
