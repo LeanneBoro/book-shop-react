@@ -4,7 +4,7 @@ const { Link } = ReactRouterDOM
 
 import { bookService } from "../services/book-service.js"
 import { BookList } from "../cmps/Booklist.jsx"
-import { BookDetails } from "../cmps/Bookdetails.jsx"
+import { BookDetails } from "../cmps/BookDetails.jsx"
 import { BookFilter } from "../cmps/BookFilter.jsx"
 import { eventBusService } from "../services/event-bus.service.js"
 

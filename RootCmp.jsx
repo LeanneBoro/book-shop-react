@@ -7,7 +7,7 @@ import { AppHeader } from './cmps/AppHeader.jsx'
 import { Home } from './pages/home.jsx'
 import { About } from './pages/Abourt.jsx'
 import { BookIndex } from './pages/BookIndex.jsx'
-import { BookDetails } from './cmps/Bookdetails.jsx'
+import { BookDetails } from './cmps/BookDetails.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { Review } from '/cmps/AddReview.jsx'
 
@@ -30,8 +30,8 @@ export function App() {
                     <Route path="/book" element={<BookIndex />} />
                     {/* <Route path="/car/edit" element={<CarEdit />} />
                     <Route path="/car/edit/:carId" element={<CarEdit />} /> */}
-                    <Route path="/book/:bookId" element={<BookDetails />}/>
-                        <Route path="/book/:bookId/review" element={ <Review/>} >   
+                    <Route path="/book/:bookId" element={<BookDetails />} />
+                    <Route path="/book/:bookId/review" element={<Review />} >
                     </Route>
                 </Routes>
                 {/* {page === 'home' && <Home />}
@@ -40,7 +40,7 @@ export function App() {
             </main>
 
             <UserMsg />
-            
+
         </section>
     </Router>
 }

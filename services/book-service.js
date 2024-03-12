@@ -8,17 +8,24 @@ export const bookService = {
   remove,
   getById,
   save,
+  get,
   getDefaultFilter,
-  addReview
+  addReview,
+  getEmptyReview
 }
 
 function _saveBooksToStorage() {
   storageService.save(BOOK_KEY, gBooks)
 }
 
-function addReview(bookId, review) {
-  let book = getById(bookId)
-  book[review] = review
+function get(bookId) {
+  return storageService.get(BOOK_KEY, bookId)
+}
+
+
+
+function addReview(review) {
+console.log(review)
 }
 
 function query(filterBy) {
@@ -58,6 +65,9 @@ function getDefaultFilter() {
   return { title: '', price: 0 }
 }
 
+function getEmptyReview() {
+  return {fullName : '', rating: 0, date: "2000-05-04"}
+}
 
 function remove(bookId) {
   return storageService.remove(BOOK_KEY, bookId)

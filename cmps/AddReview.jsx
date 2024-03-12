@@ -1,25 +1,44 @@
 const { useState, useEffect } = React
 const { useNavigate, useParams } = ReactRouter
+import { bookService } from "../services/book-service.js"
 
-export function Review() {
-    const { carId } = useParams()
+export function Review({ bookId, addReview}) {
+
+    const [reviewToEdit, setReviewToEdit] = useState(bookService.getEmptyReview())
+
+    function onAddReview(ev) {
+        ev.preventDefault()
+        addReview(reviewDetails)
+      }
+
 
     function handleChange({ target }) {
         const field = target.name
         let value = target.value
-        console.log(field)
-        console.log(value)
+
+            switch (target.type) {
+                case 'number':
+                case 'range':
+                    value = +value || ''
+                    break
+    
+                case 'checkbox':
+                    value = target.checked
+                    break
+    
+                default:
+                    break
+            }
+    
+            setReviewToEdit(prevReviewToEdit => ({ ...prevReviewToEdit, [field]: value }))
     }
 
-    function onSaveReview(ev) {
-		ev.preventDefault()
 
-	}
-
+    const {fullName,rating,date} = reviewToEdit
 
     return (
         <section className="review">
-            <form onSubmit={onSaveReview}>
+            <form onSubmit={onAddReview}>
                 <label htmlFor="full-name">name:</label>
                 <input
                     type="text"
@@ -28,6 +47,7 @@ export function Review() {
 
                     name="full-name"
                     onChange={handleChange}
+                    value={fullName}
                 />
 
                 <label htmlFor="rating">rating:</label>
@@ -38,14 +58,15 @@ export function Review() {
 
                     name="rating"
                     onChange={handleChange}
+                    value={rating}
                 />
 
                 <label htmlFor="date">Read at</label>
                 <input type="date"
                     id="date"
                     name="Read"
-                    value="2018-07-22"
-                    min="2010-01-01"
+                    value={date}
+                    min="2000-05-04"
                     max="2024-01-01" />
                 <button>Save</button>
             </form>
